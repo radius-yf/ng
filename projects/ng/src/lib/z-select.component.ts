@@ -1,30 +1,52 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  forwardRef,
+  inject,
+  input,
+} from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BehaviorSubject, combineLatest, forkJoin, map, switchMap } from 'rxjs';
-import { ADD_OPTIONS, AddOptions, Options } from '../add-options';
 import { ControlValueAccessorBase } from '../control-value-accessor-base';
+import {
+  Option,
+  OPTION_DATA_SOURCE,
+  OptionDataSource,
+} from '../option-data-source';
 
 @Component({
   selector: 'z-select',
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <select [(ngModel)]="value" (ngModelChange)="modelChange($event)">
+    <select
+      [(ngModel)]="value"
+      (ngModelChange)="modelChange($event)"
+      [disabled]="disabled()"
+    >
       @for (item of data | async; track $index) {
       <option [value]="item.value">{{ item.label }}</option>
       }
     </select>
   `,
   styles: ``,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ZSelectComponent),
+      multi: true,
+    },
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ZSelect<T> extends ControlValueAccessorBase<T> {
-  options = input<Options<T>[]>([]);
+export class ZSelectComponent<T> extends ControlValueAccessorBase<T> {
+  options = input<Option<T>[]>([]);
 
   private $search = new BehaviorSubject<string>('');
 
-  private addOptions = inject<AddOptions<T>[]>(ADD_OPTIONS, {
+  private addOptions = inject<OptionDataSource<T>[]>(OPTION_DATA_SOURCE, {
     optional: true,
     self: true,
   });

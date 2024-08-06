@@ -11,7 +11,7 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "paths": {
-      "ng": [
+      "@zpyyf/ng": [
         "./dist/ng"
       ]
     },

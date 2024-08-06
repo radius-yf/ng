@@ -1,9 +1,21 @@
 {
-  "name": "ng",
-  "version": "0.0.1",
+  "name": "@zpyyf/ng",
+  "version": "0.0.2",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/radius-yf/ng"
+  },
+  "homepage": "https://github.com/radius-yf/ng",
+  "bugs": "https://github.com/radius-yf/ng/issues",
+  "author": "zpy",
+  "description": "ng18",
+  "main": "projects/ng/src/public-api.ts",
   "peerDependencies": {
     "@angular/common": "^18.1.0",
-    "@angular/core": "^18.1.0"
+    "@angular/core": "^18.1.0",
+    "@angular/forms": "^18.1.0",
+    "rxjs": "~7.8.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

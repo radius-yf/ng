@@ -1,19 +1,17 @@
+import { signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
 
 export class ControlValueAccessorBase<T> implements ControlValueAccessor {
-  value = new BehaviorSubject<T | null>(null);
+  value = signal<T | null>(null);
   onChange: (value: T) => void = () => {};
   onTouched: () => void = () => {};
-  disabled = new BehaviorSubject<boolean>(false);
+  disabled = signal<boolean>(false);
 
   writeValue(value: T | null): void {
-    this.value.next(value);
+    this.value.set(value);
   }
 
   registerOnChange(fn: (value: T) => void): void {
-    console.log('test', fn);
-    
     this.onChange = fn;
   }
 
@@ -22,6 +20,6 @@ export class ControlValueAccessorBase<T> implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled.next(isDisabled);
+    this.disabled.set(isDisabled);
   }
 }
